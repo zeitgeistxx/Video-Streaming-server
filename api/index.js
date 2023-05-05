@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('node:fs')
 const multiParty = require('multiparty')
+const { networkInterfaces } = require('node:os')
 
 
 const app = express()
@@ -61,7 +62,18 @@ app.post('/', (req, res) => {
 })
 
 
+
+
+let IP
+const nets = networkInterfaces()
+Object.entries(nets).forEach(([keys, vals]) => {
+    if (keys === 'Wi-Fi') {
+        IPV4 = vals[1].address
+    }
+})
+
+
 const port = 8686
-app.listen(port, () => {
+app.listen(port, IP, () => {
     console.log(`Server PORT: ${port}`)
 })
